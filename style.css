@@ -4,31 +4,32 @@
   box-sizing: border-box;
 }
 
-/* body {
+body {
   height: 100vh;
   display: flex;
-} */
+  justify-content: center;
+}
 
 .card-board {
   width: 800px;
-  height: 750px;
+  height: 800px;
   margin: auto;
   display: grid;
-  grid-template: repeat(4, 10rem) / repeat(4, 10rem);
+  grid-template: repeat(4, 11rem) / repeat(4, 11rem);
   grid-gap: 2rem;
-  perspective: 800px;
+  perspective: 1000px;
 }
 
 .card {
   position: relative;
   transform-style: preserve-3d;
-  transition: all 2s ease;
+  transition: all 1s;
+  /* z-index: 3; */
 }
-.card.flip {
+.card.flipped {
   transform: rotateY(180deg);
 }
 .face {
-  z-index: 2;
   transform: rotateY(180deg);
 }
 .face,
@@ -36,14 +37,12 @@
   max-width: 100%;
   max-height: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
   backface-visibility: hidden;
+  /* z-index: 2; */
 }
-.back {
-  /* z-index: 5; */
-  /* background-color: aqua; */
-  /* background-image: url(img/back.jpg); */
-  /* transform: rotateY(180deg); */
-  backface-visibility: hidden;
+/* .back {
+} */
+.hidden {
+  opacity: 0.1;
+  pointer-events: none;
 }

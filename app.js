@@ -8,7 +8,6 @@ const logos = [
   { src: "img/mavic.jpg", name: "mavic" },
   { src: "img/rockMachine.jpg", name: "rock machine" },
 ];
-// TODO:  allow select/open card by tab key
 
 const getLogos = () => {
   return [...logos, ...logos].sort(() => Math.random() - 0.5);
@@ -17,14 +16,15 @@ const boardGenerator = () => {
   const board = document.createDocumentFragment();
   const section = document.querySelector("section");
   section.classList.add("card-board");
-  section.setAttribute("tabindex", 0);
+  // section.setAttribute("tabindex", 0);
   let cardLogos = getLogos();
   cardLogos.forEach((logo) => {
     const card = document.createElement("div");
     const face = document.createElement("img");
     const back = document.createElement("img");
-    // card.setAttribute("tabindex", -1);
+    // card.setAttribute("tabindex", 0);
     card.classList.add("card");
+    card.setAttribute("id", logo.name);
     face.classList.add("face");
     face.setAttribute("alt", logo.name);
     back.classList.add("back");
@@ -37,22 +37,68 @@ const boardGenerator = () => {
   });
   section.appendChild(board);
 };
-boardGenerator();
+boardGenerator(); //TODO: this func will start by button "start game"
 
 const cardBoard = document.querySelector(".card-board");
 const cards = document.querySelectorAll(".card");
-console.log(cards);
+// const flippedCards = [];
+let isBoardFrezed = false;
 
-const flippingCard = (event) => {
-  // console.log(
-  //   event.target.nodeName,
-  //   event.target.innerText,
-  //   event.target.clasName,
-  //   event.target.parentNode
-  // );
-  let parent = event.target.parentNode;
-  if (event.target.nodeName === "IMG") {
-    parent.classList.add("flip");
+const getFlipCard = ({ target }) => {
+  if (target.nodeName === "IMG") {
+    if (isBoardFrezed) return;
+    const card = target.parentElement;
+    card.classList.add("flipped");
+    const flippedCards = document.querySelectorAll(".flipped");
+    if (flippedCards.length === 2) {
+      isBoardFrezed = true;
+      console.log(flippedCards);
+      if (flippedCards[0].id === flippedCards[1].id) {
+        setTimeout(() => {
+          flippedCards.forEach((card) => {
+            card.classList.add("hidden"), card.classList.remove("flipped");
+          });
+        }, 1000);
+        isBoardFrezed = false;
+        console.log(flippedCards);
+      } else {
+        setTimeout(() => {
+          flippedCards.forEach((card) => {
+            card.classList.remove("flipped");
+          }, 1000);
+          isBoardFrezed = false;
+          console.log(flippedCards);
+        });
+      }
+    }
+    const allHiddenCards = document.querySelectorAll(".hidden");
+    console.log(allHiddenCards);
   }
 };
-cardBoard.addEventListener("click", flippingCard);
+
+cardBoard.addEventListener("click", getFlipCard);
+
+// TODO:  select card by arrows and flip by space
+const switchElementsFocus = (event) => {
+  let target = event.target;
+  let nextSibling = target.nextSibling;
+  switch (event.code) {
+    case "ArrowUp":
+      break;
+    case "ArrowDown":
+      break;
+    case "ArrowRight":
+      target.setAttribute("tabindex", -1);
+      nextSibling.focus();
+      // console.log(target.nextSibling);
+      break;
+    case "ArrowLeft":
+      break;
+    case "Space":
+      // console.log(target.nodeName);
+      // flippingCard(event);
+      break;
+  }
+};
+
+cardBoard.addEventListener("keydown", switchElementsFocus);

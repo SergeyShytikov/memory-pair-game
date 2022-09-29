@@ -12,32 +12,32 @@ const logos = [
 const getLogos = () => {
   return [...logos, ...logos].sort(() => Math.random() - 0.5);
 };
-const boardGenerator = () => {
-  const board = document.createDocumentFragment();
-  const section = document.querySelector("section");
-  section.classList.add("card-board");
-  // section.setAttribute("tabindex", 0);
-  let cardLogos = getLogos();
-  cardLogos.forEach((logo) => {
-    const card = document.createElement("div");
-    const face = document.createElement("img");
-    const back = document.createElement("img");
-    // card.setAttribute("tabindex", 0);
-    card.classList.add("card");
-    card.setAttribute("id", logo.name);
-    face.classList.add("face");
-    face.setAttribute("alt", logo.name);
-    back.classList.add("back");
-    back.setAttribute("alt", "card back");
-    face.src = logo.src;
-    back.src = "img/back.jpg";
-    card.appendChild(face);
-    card.appendChild(back);
-    section.appendChild(card);
-  });
-  section.appendChild(board);
-};
-boardGenerator(); //TODO: this func will start by button "start game"
+// const boardGenerator = () => {
+const board = document.createDocumentFragment();
+const section = document.querySelector("section");
+section.classList.add("card-board");
+// section.setAttribute("tabindex", 0);
+let cardLogos = getLogos();
+cardLogos.forEach((logo) => {
+  const card = document.createElement("div");
+  const face = document.createElement("img");
+  const back = document.createElement("img");
+  // card.setAttribute("tabindex", 0);
+  card.classList.add("card");
+  card.setAttribute("id", logo.name);
+  face.classList.add("face");
+  face.setAttribute("alt", logo.name);
+  back.classList.add("back");
+  back.setAttribute("alt", "card back");
+  face.src = logo.src;
+  back.src = "img/back.jpg";
+  card.appendChild(face);
+  card.appendChild(back);
+  section.appendChild(card);
+});
+section.appendChild(board);
+// };
+// boardGenerator();
 
 const cardBoard = document.querySelector(".card-board");
 const cards = document.querySelectorAll(".card");
@@ -57,19 +57,25 @@ const getFlipCard = ({ target }) => {
           card.classList.add("hidden"), card.classList.remove("flipped");
         });
         isBoardFrezed = false;
+        restartGame();
       }
       isBoardFrezed = false;
       flippedCards.forEach((card) => {
         card.classList.remove("flipped");
       });
-    }, 1000);
+    }, 800);
   }
 };
-// console.log(allHiddenCards);
-// const allHiddenCards = Array.from(
-//   document.querySelectorAll(".hidden")
-// );
-// console.log(allHiddenCards);
+const restartGame = () => {
+  const allHiddenCards = Array.from(document.querySelectorAll(".hidden"));
+  console.log(allHiddenCards);
+  if (allHiddenCards.length === 16) {
+    setTimeout(() => {
+      alert("You win");
+      setTimeout(window.location.reload.bind(window.location), 250);
+    }, 250);
+  }
+};
 cardBoard.addEventListener("click", getFlipCard);
 
 // TODO:  select card by arrows and flip by space

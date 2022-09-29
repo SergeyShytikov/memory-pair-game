@@ -41,41 +41,35 @@ boardGenerator(); //TODO: this func will start by button "start game"
 
 const cardBoard = document.querySelector(".card-board");
 const cards = document.querySelectorAll(".card");
-// const flippedCards = [];
 let isBoardFrezed = false;
 
 const getFlipCard = ({ target }) => {
-  if (target.nodeName === "IMG") {
-    if (isBoardFrezed) return;
-    const card = target.parentElement;
-    card.classList.add("flipped");
-    const flippedCards = document.querySelectorAll(".flipped");
-    if (flippedCards.length === 2) {
-      isBoardFrezed = true;
-      console.log(flippedCards);
+  if (target.nodeName !== "IMG") return;
+  if (isBoardFrezed) return;
+  const card = target.parentElement;
+  card.classList.add("flipped");
+  const flippedCards = document.querySelectorAll(".flipped");
+  if (flippedCards.length === 2) {
+    isBoardFrezed = true;
+    setTimeout(() => {
       if (flippedCards[0].id === flippedCards[1].id) {
-        setTimeout(() => {
-          flippedCards.forEach((card) => {
-            card.classList.add("hidden"), card.classList.remove("flipped");
-          });
-        }, 1000);
-        isBoardFrezed = false;
-        console.log(flippedCards);
-      } else {
-        setTimeout(() => {
-          flippedCards.forEach((card) => {
-            card.classList.remove("flipped");
-          }, 1000);
-          isBoardFrezed = false;
-          console.log(flippedCards);
+        flippedCards.forEach((card) => {
+          card.classList.add("hidden"), card.classList.remove("flipped");
         });
+        isBoardFrezed = false;
       }
-    }
-    const allHiddenCards = document.querySelectorAll(".hidden");
-    console.log(allHiddenCards);
+      isBoardFrezed = false;
+      flippedCards.forEach((card) => {
+        card.classList.remove("flipped");
+      });
+    }, 1000);
   }
 };
-
+// console.log(allHiddenCards);
+// const allHiddenCards = Array.from(
+//   document.querySelectorAll(".hidden")
+// );
+// console.log(allHiddenCards);
 cardBoard.addEventListener("click", getFlipCard);
 
 // TODO:  select card by arrows and flip by space

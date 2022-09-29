@@ -46,3 +46,27 @@ body {
   opacity: 0.1;
   pointer-events: none;
 }
+@media screen and (max-width: 820px) {
+  .card-board {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 560px;
+    height: 560px;
+    display: grid;
+    grid-template: repeat(4, 8rem) / repeat(4, 8rem);
+    grid-gap: 1rem;
+    perspective: 1000px;
+  }
+}
+@media screen and (max-width: 580px) {
+  .card-board {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 370px;
+    height: 370px;
+    display: grid;
+    grid-template: repeat(4, 5rem) / repeat(4, 5rem);
+    grid-gap: 0, 5rem;
+    perspective: 1000px;
+  }
+}

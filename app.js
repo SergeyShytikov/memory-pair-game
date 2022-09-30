@@ -12,7 +12,6 @@ const logos = [
 const getLogos = () => {
   return [...logos, ...logos].sort(() => Math.random() - 0.5);
 };
-// const boardGenerator = () => {
 const board = document.createDocumentFragment();
 const section = document.querySelector("section");
 section.classList.add("card-board");
@@ -24,7 +23,7 @@ cardLogos.forEach((logo) => {
   const back = document.createElement("img");
   // card.setAttribute("tabindex", 0);
   card.classList.add("card");
-  card.setAttribute("id", logo.name);
+  card.setAttribute("brand", logo.name);
   face.classList.add("face");
   face.setAttribute("alt", logo.name);
   back.classList.add("back");
@@ -36,8 +35,6 @@ cardLogos.forEach((logo) => {
   section.appendChild(card);
 });
 section.appendChild(board);
-// };
-// boardGenerator();
 
 const cardBoard = document.querySelector(".card-board");
 const cards = document.querySelectorAll(".card");
@@ -49,10 +46,14 @@ const getFlipCard = ({ target }) => {
   const card = target.parentElement;
   card.classList.add("flipped");
   const flippedCards = document.querySelectorAll(".flipped");
+  console.log(flippedCards[0].attributes[1].textContent);
   if (flippedCards.length === 2) {
-    isBoardFrezed = true;
+    let [flippedCardFirst, flippedCardSecond] = flippedCards;
+    let brandFirst = flippedCardFirst.attributes[1].textContent;
+    let brandSecond = flippedCardSecond.attributes[1].textContent,
+      isBoardFrezed = true;
     setTimeout(() => {
-      if (flippedCards[0].id === flippedCards[1].id) {
+      if (brandFirst === brandSecond) {
         flippedCards.forEach((card) => {
           card.classList.add("hidden"), card.classList.remove("flipped");
         });
@@ -79,26 +80,26 @@ const restartGame = () => {
 cardBoard.addEventListener("click", getFlipCard);
 
 // TODO:  select card by arrows and flip by space
-const switchElementsFocus = (event) => {
-  let target = event.target;
-  let nextSibling = target.nextSibling;
-  switch (event.code) {
-    case "ArrowUp":
-      break;
-    case "ArrowDown":
-      break;
-    case "ArrowRight":
-      target.setAttribute("tabindex", -1);
-      nextSibling.focus();
-      // console.log(target.nextSibling);
-      break;
-    case "ArrowLeft":
-      break;
-    case "Space":
-      // console.log(target.nodeName);
-      // flippingCard(event);
-      break;
-  }
-};
+// const switchElementsFocus = (event) => {
+//   let target = event.target;
+//   let nextSibling = target.nextSibling;
+//   switch (event.code) {
+//     case "ArrowUp":
+//       break;
+//     case "ArrowDown":
+//       break;
+//     case "ArrowRight":
+//       target.setAttribute("tabindex", -1);
+//       nextSibling.focus();
+//       // console.log(target.nextSibling);
+//       break;
+//     case "ArrowLeft":
+//       break;
+//     case "Space":
+//       // console.log(target.nodeName);
+//       // flippingCard(event);
+//       break;
+//   }
+// };
 
-cardBoard.addEventListener("keydown", switchElementsFocus);
+// cardBoard.addEventListener("keydown", switchElementsFocus);

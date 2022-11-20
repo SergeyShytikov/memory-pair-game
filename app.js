@@ -15,7 +15,7 @@ const getLogos = () => {
 const board = document.createDocumentFragment();
 const section = document.querySelector("section");
 section.classList.add("card-board");
-// section.setAttribute("tabindex", 0);
+section.setAttribute("tabindex", 0);
 let cardLogos = getLogos();
 cardLogos.forEach((logo) => {
   const card = document.createElement("div");
@@ -26,8 +26,10 @@ cardLogos.forEach((logo) => {
   card.setAttribute("brand", logo.name);
   face.classList.add("face");
   face.setAttribute("alt", logo.name);
+  face.setAttribute("draggable", "false");
   back.classList.add("back");
   back.setAttribute("alt", "card back");
+  back.setAttribute("draggable", "false");
   face.src = logo.src;
   back.src = "img/back.jpg";
   card.appendChild(face);
@@ -46,12 +48,11 @@ const getFlipCard = ({ target }) => {
   const card = target.parentElement;
   card.classList.add("flipped");
   const flippedCards = document.querySelectorAll(".flipped");
-  console.log(flippedCards[0].attributes[1].textContent);
   if (flippedCards.length === 2) {
+    isBoardFrezed = true;
     let [flippedCardFirst, flippedCardSecond] = flippedCards;
     let brandFirst = flippedCardFirst.attributes[1].textContent;
-    let brandSecond = flippedCardSecond.attributes[1].textContent,
-      isBoardFrezed = true;
+    let brandSecond = flippedCardSecond.attributes[1].textContent;
     setTimeout(() => {
       if (brandFirst === brandSecond) {
         flippedCards.forEach((card) => {
@@ -83,17 +84,26 @@ cardBoard.addEventListener("click", getFlipCard);
 // const switchElementsFocus = (event) => {
 //   let target = event.target;
 //   let nextSibling = target.nextSibling;
+//   // let previousSibling = target.previousSibling;
+//   // let fourStepsBack =
+//   //   target.previousSibling.previousSibling.previousSibling.previousSibling;
+//   // let fourStepsForward = target.nextSibling.nextSibling.nextSibling.nextSibling;
 //   switch (event.code) {
 //     case "ArrowUp":
+//       // target.setAttribute("tabindex", -1);
+//       // fourStepsBack.focus();
 //       break;
 //     case "ArrowDown":
+//       // target.setAttribute("tabindex", -1);
+//       // fourStepsForward.focus();
 //       break;
 //     case "ArrowRight":
 //       target.setAttribute("tabindex", -1);
 //       nextSibling.focus();
-//       // console.log(target.nextSibling);
 //       break;
 //     case "ArrowLeft":
+//       // target.setAttribute("tabindex", -1);
+//       // previousSibling.focus();
 //       break;
 //     case "Space":
 //       // console.log(target.nodeName);

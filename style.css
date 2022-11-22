@@ -25,7 +25,6 @@ body {
   position: relative;
   transform-style: preserve-3d;
   transition: all 1s;
-  /* z-index: 3; */
 }
 .card.flipped {
   transform: rotateY(180deg);
@@ -44,7 +43,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  /* z-index: 2; */
 }
 /* .back {
 } */
